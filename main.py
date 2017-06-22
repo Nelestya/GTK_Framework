@@ -1,9 +1,62 @@
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 ################################################################################
 # Documentation:
 """https://developer.gnome.org/gtk3/stable/"""
+
+import os
+import sys
+
+commands_line = [
+    "help",
+    "add-window",
+    "add-actionbar",
+    "add-aboutwindow",
+    "add-aboutdialog",
+    "add-assistant",
+    "add-colorchooserdialog",
+    "add-filechooserwindow",
+    "add-appchooserdialog",
+]
+
+
+class Terminal(Gtk.Window):
+    # Terminal Control
+    def __init__(self):
+        Gtk.Window.__init__(self, title="StreaOS GTKiller")
+        self.set_name('Terminal')
+        try:
+            # Main Box
+            self.MainBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+            self.add(self.MainBox)
+
+            # Box for Interaction User
+            self.BoxHor = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
+
+            self.label_User = Gtk.Label(">>>")
+            self.BoxHor.pack_start(self.label_User, True, True, 0)
+            self.entry = Gtk.Entry()
+            self.entry.connect("activate", self.on_activate_pressed)
+            self.BoxHor.pack_start(self.entry, True, True, 0)
+
+            self.MainBox.pack_start(self.BoxHor, True, True, 0)
+        except Exception as err:
+            print(err)
+
+        # Réf: http://wolfvollprecht.de/blog/gtk-python-and-css-are-an-awesome-combo/
+        style_provider = Gtk.CssProvider()
+        with open("terminal.css", "rb") as filecss:
+            css_data = filecss.read()
+        style_provider.load_from_data(css_data)
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            style_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+    def on_activate_pressed(self, widget):
+        print(self.entry.get_text())
 
 
 class MyWindow(Gtk.Window):
@@ -239,8 +292,9 @@ class PrintWindow(Gtk.PrintUnixDialog):
 
 ################################################################################
 # Launcher
+# Test Phase
 if __name__ == '__main__':
-    win = MyWindow()
+    win = Terminal()
     win.connect("delete-event", Gtk.main_quit)
     win.show_all()
     Gtk.main()

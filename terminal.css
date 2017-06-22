@@ -1,0 +1,10 @@
+#Terminal{
+    background-color: black;
+}
+
+#Terminal GtkEntry {
+    background: #000;
+    border-color: #000;
+    box-shadow: 0 0 5px #333 inset;
+    margin: 10px;
+}
