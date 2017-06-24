@@ -7,6 +7,7 @@ from gi.repository import Gtk, Gdk
 
 import os
 import sys
+import pickle
 
 commands_line = [
     "help",
@@ -26,6 +27,9 @@ class Terminal(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="StreaOS GTKiller")
         self.set_name('Terminal')
+        self.i = 0
+        self.registerLabel = []
+
         try:
             # Main Box
             self.MainBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
@@ -40,7 +44,7 @@ class Terminal(Gtk.Window):
             self.entry.connect("activate", self.on_activate_pressed)
             self.BoxHor.pack_start(self.entry, True, True, 0)
 
-            self.MainBox.pack_start(self.BoxHor, True, True, 0)
+            self.MainBox.pack_end(self.BoxHor, True, True, 0)
         except Exception as err:
             print(err)
 
@@ -56,7 +60,23 @@ class Terminal(Gtk.Window):
         )
 
     def on_activate_pressed(self, widget):
+
         print(self.entry.get_text())
+        ########################################################################
+        # Bug
+        # (main.py:9385): Gtk-CRITICAL **: gtk_box_pack: assertion 'gtk_widget_get_parent (child) == NULL' failed
+        # is resolve if label initialised in variable
+        try:
+            self.registerLabel.append(Gtk.Label(">>> " + self.entry.get_text() + "\n" + "response"))
+            for align_label in self.registerLabel:
+                align_label.set_alignment(0, 0)
+                self.MainBox.pack_start(align_label, True, True, 0)
+            self.show_all()
+        except Exception as err:
+            print(err)
+        #######################################################################
+        # Reférence :
+        # http://www.pygtk.org/pygtk2reference/class-gtkbox.html#method-gtkbox--set-child-packing
 
 
 class MyWindow(Gtk.Window):
