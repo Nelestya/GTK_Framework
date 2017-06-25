@@ -37,17 +37,35 @@ class Terminal(Gtk.Window):
 
             # Box for Interaction User
             self.BoxHor = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
+            self.MainBox.pack_end(self.BoxHor, False, False, 0)
+            # self.Box_Resp_Term = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+            # self.MainBox.pack_start(self.Box_Resp_Term, True, True, 0)
 
+            # contents in BoxHor
             self.label_User = Gtk.Label(">>>")
-            self.BoxHor.pack_start(self.label_User, True, True, 0)
+            self.BoxHor.pack_start(self.label_User, False, True, 0)
             self.entry = Gtk.Entry()
             self.entry.connect("activate", self.on_activate_pressed)
             self.BoxHor.pack_start(self.entry, True, True, 0)
 
-            self.MainBox.pack_end(self.BoxHor, True, True, 0)
+            # content on Box_Resp_Term
+
+            self.Revealer = Gtk.Revealer()
+            self.Revealer.set_reveal_child(True)
+
+            # create a window scroll
+            self.TerminalScroll = Gtk.ScrolledWindow()
+            self.Revealer.add(self.TerminalScroll)
+            Gtk.Widget.show(self.TerminalScroll)
+            self.MainBox.pack_start(self.Revealer, True, True, 0)
+            self.Box_Resp_Term = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+            self.TerminalScroll.add_with_viewport(self.Box_Resp_Term)
+
         except Exception as err:
+            print("error")
             print(err)
 
+        # CSS For the Terminal
         # Réf: http://wolfvollprecht.de/blog/gtk-python-and-css-are-an-awesome-combo/
         style_provider = Gtk.CssProvider()
         with open("terminal.css", "rb") as filecss:
@@ -64,14 +82,17 @@ class Terminal(Gtk.Window):
         print(self.entry.get_text())
         ########################################################################
         # Bug
-        # (main.py:9385): Gtk-CRITICAL **: gtk_box_pack: assertion 'gtk_widget_get_parent (child) == NULL' failed
-        # is resolve if label initialised in variable
+        # (main.py:4660): Gtk-CRITICAL **: gtk_box_pack: assertion 'gtk_widget_get_parent (child) == NULL' failed
+
         try:
+            # Return Command and the response
             self.registerLabel.append(Gtk.Label(">>> " + self.entry.get_text() + "\n" + "response"))
+
             for align_label in self.registerLabel:
                 align_label.set_alignment(0, 0)
-                self.MainBox.pack_start(align_label, True, True, 0)
-            self.show_all()
+                self.Box_Resp_Term.pack_start(align_label, False, True, 0)
+                align_label.show()
+
         except Exception as err:
             print(err)
         #######################################################################
