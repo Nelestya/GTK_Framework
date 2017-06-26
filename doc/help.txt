@@ -1,0 +1,2 @@
+Pour avoir la documentation taper "help nom de la commande"
+Pour avoir la liste des commande taper "help liste"
