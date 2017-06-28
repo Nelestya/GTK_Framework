@@ -4,27 +4,13 @@
 import sys
 import os
 
-################################################################################
-#                             Exemple Command
-################################################################################
-
-################################################################################
-"""
-Createwindow pathfilename
-add_container pathfilename
-
-    "help",
-    "add-window",
-    "add-actionbar",
-    "add-aboutwindow",
-    "add-aboutdialog",
-    "add-assistant",
-    "add-colorchooserdialog",
-    "add-filechooserwindow",
-    "add-appchooserdialog",
-
-"""
-
+# Rappel open
+# r, pour une ouverture en lecture (READ).
+# w, pour une ouverture en écriture (WRITE), à chaque ouverture le contenu du fichier est écrasé. Si le fichier n'existe pas python le crée.
+# a, pour une ouverture en mode ajout à la fin du fichier (APPEND). Si le fichier n'existe pas python le crée.
+# b, pour une ouverture en mode binaire.
+# t, pour une ouverture en mode texte.
+# x, crée un nouveau fichier et l'ouvre pour écriture
 
 ################################################################################
 
@@ -38,23 +24,32 @@ class Command(object):
     def __init__(self, string):
         global cmd
         cmd = string.split()
+        global response
+        response = None
 
     def Exe_Cmd(self):
         try:
             MyClass = cmd[0] + "()"
             eval(MyClass)
+            return response
         except:
-            return None
+            return response
+
+################################################################################
+# Main Commands
+################################################################################
 
 
 class Create():
     def __init__(self):
-        self.doc = "doc/window.txt"
-        self.code = "Window/window.py"
         if len(cmd) == 1:
             return ""
-        else if len(cmd) >= 2:
-            return 0
+        elif len(cmd) >= 2:
+            try:
+                MyClass = cmd[1] + "()"
+                eval(MyClass)
+            except:
+                return None
 
 
 class Add():
@@ -76,10 +71,128 @@ class help():
                 return x
         else:
             return "Bug generate in help function"
-            ################################################################################
-            # Window template
+
+################################################################################
+# Window template
+
+
+class Window():
+    def __init__(self):
+        self.code = "Templates/Windows/window.py"
+        if len(cmd) >= 3:
+            try:
+                with open(cmd[2], "a") as filename:
+                    with open(self.code, "r") as code:
+                        filename.write(code.read())
+                global response
+                response = "Windows is created in " + str(cmd[2])
+            except:
+                return 0
+        elif len(cmd) < 2:
+            return 0
+        else:
+            return 0
+
+
+class Assistant():
+    def __init__(self):
+        self.code = "Templates/Windows/Assistant.py"
+        if len(cmd) >= 3:
+            try:
+                with open(cmd[2], "a") as filename:
+                    with open(self.code, "r") as code:
+                        filename.write(code.read())
+            except:
+                return 0
+        elif len(cmd) < 2:
+            return 0
+        else:
+            return 0
+
+
+class Aboutdialog():
+    def __init__(self):
+        self.code = "Templates/Windows/Assistant.py"
+        if len(cmd) >= 3:
+            try:
+                with open(cmd[2], "a") as filename:
+                    with open(self.code, "r") as code:
+                        filename.write(code.read())
+            except:
+                return 0
+        elif len(cmd) < 2:
+            return 0
+        else:
+            return 0
+
+
+class Appchooserdialog():
+    def __init__(self):
+        self.code = "Templates/Windows/AppChooserDialog.py"
+        if len(cmd) >= 3:
+            try:
+                with open(cmd[2], "a") as filename:
+                    with open(self.code, "r") as code:
+                        filename.write(code.read())
+            except:
+                return 0
+        elif len(cmd) < 2:
+            return 0
+        else:
+            return 0
+
+
+class Colorchoosedialog():
+    def __init__(self):
+        self.code = "Templates/Windows/ColorChooseDialog.py"
+        if len(cmd) >= 3:
+            try:
+                with open(cmd[2], "a") as filename:
+                    with open(self.code, "r") as code:
+                        filename.write(code.read())
+            except:
+                return 0
+        elif len(cmd) < 2:
+            return 0
+        else:
+            return 0
+
+
+class Filechooserdialog():
+    def __init__(self):
+        self.code = "Templates/Windows/FileChooserDialog.py"
+        if len(cmd) >= 3:
+            try:
+                with open(cmd[2], "a") as filename:
+                    with open(self.code, "r") as code:
+                        filename.write(code.read())
+            except:
+                return 0
+        elif len(cmd) < 2:
+            return 0
+        else:
+            return 0
+
+
+class Recentchooserdialog():
+    def __init__(self):
+        self.code = "Templates/Windows/RecentChooserDialog.py"
+        if len(cmd) >= 3:
+            try:
+                with open(cmd[2], "a") as filename:
+                    with open(self.code, "r") as code:
+                        filename.write(code.read())
+            except:
+                return 0
+        elif len(cmd) < 2:
+            return 0
+        else:
+            return 0
+
+################################################################################
+# TEST PHASE
 
 
 if __name__ == '__main__':
-    r = Command("help")
-    r.Exe_Cmd()
+    r = Command("Create Window test.py")
+    print(r.Exe_Cmd())

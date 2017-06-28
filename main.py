@@ -4,6 +4,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
+import command
 ################################################################################
 # Documentation:
 """https://developer.gnome.org/gtk3/stable/"""
@@ -65,8 +66,8 @@ class Terminal(Gtk.Window):
         )
 
     def on_activate_pressed(self, widget):
+        r = command.Command(self.entry.get_text())
 
-        print(self.entry.get_text())
         ########################################################################
         # Bug
         # (main.py:4805): Gtk-CRITICAL **: gtk_box_pack: assertion 'gtk_widget_get_parent (child) == NULL' failed
@@ -74,7 +75,8 @@ class Terminal(Gtk.Window):
 
         try:
             # Return Command and the response
-            self.registerLabel.append(Gtk.Label(">>> " + self.entry.get_text() + "\n" + "response"))
+            self.registerLabel.append(
+                Gtk.Label(">>> " + self.entry.get_text() + "\n" + str(r.Exe_Cmd())))
 
             for align_label in self.registerLabel:
                 align_label.set_alignment(0, 0)
