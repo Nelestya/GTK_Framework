@@ -66,7 +66,7 @@ class Terminal(Gtk.Window):
         )
 
     def on_activate_pressed(self, widget):
-        test = command.exe_cmd(self.entry.get_text())
+        self.cmd_user = command.Execute_Commande(self.entry.get_text())
 
         ########################################################################
         # Bug
@@ -76,7 +76,7 @@ class Terminal(Gtk.Window):
         try:
             # Return Command and the response
             self.registerLabel.append(
-                Gtk.Label(">>> " + self.entry.get_text() + "\n" + test))
+                Gtk.Label(">>> " + self.entry.get_text() + "\n" + self.cmd_user.Exe_cmd()))
 
             for align_label in self.registerLabel:
                 align_label.set_alignment(0, 0)
