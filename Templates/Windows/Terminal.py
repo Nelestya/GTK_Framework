@@ -1,19 +1,7 @@
-#!/usr/bin/python3.4
-# -*-coding:utf-8 -*
-
-import gi
-gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk
-import command
-################################################################################
-# Documentation:
-"""https://developer.gnome.org/gtk3/stable/"""
-
-
 class Terminal(Gtk.Window):
     # Terminal Control
     def __init__(self):
-        Gtk.Window.__init__(self, title="StreaOS GTKiller")
+        Gtk.Window.__init__(self, title="Terminal")
         self.set_name('Terminal')
         self.i = 0
         self.registerLabel = []
@@ -67,7 +55,7 @@ class Terminal(Gtk.Window):
 
     def on_activate_pressed(self, widget):
         self.cmd_user = command.Execute_Commande(self.entry.get_text())
-        self.response = self.cmd_user.Exe_cmd()
+
         ########################################################################
         # Bug
         # (main.py:4805): Gtk-CRITICAL **: gtk_box_pack: assertion 'gtk_widget_get_parent (child) == NULL' failed
@@ -76,7 +64,7 @@ class Terminal(Gtk.Window):
         try:
             # Return Command and the response
             self.registerLabel.append(
-                Gtk.Label(">>> " + self.entry.get_text() + "\n" + str(self.response)))
+                Gtk.Label(">>> " + self.entry.get_text() + "\n" + self.cmd_user.Exe_cmd()))
 
             for align_label in self.registerLabel:
                 align_label.set_alignment(0, 0)

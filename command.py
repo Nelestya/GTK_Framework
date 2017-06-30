@@ -28,16 +28,20 @@ class Execute_Commande(object):
             user_cmd = string.split()
         except Exception as err:
             return err
-        self.commands = {"create": Create, "hello": "test"}
+
+        self.commands = {"create": Create,
+                         "help": "help",
+                         }
         self.argv = 0
 
     def Exe_cmd(self):
 
         try:
-            if len(user_cmd) >= 1 + self.argv:
-                if self.commands.has_key(user_cmd[0 + self.argv]):
-                    self.x = self.commands[user_cmd[0 + self.argv]]()
-                    return self.x.Response()
+            if len(user_cmd) == 1:
+                return "command is not exist \"help\""
+            elif len(user_cmd) >= 1 + self.argv:
+                self.x = self.commands[user_cmd[0 + self.argv]]()
+                return self.x.Response()
         except Exception as err:
             return err
 
@@ -129,6 +133,13 @@ class FileChooseDialog(Command):
 class RecentChooseDialog(Command):
     def __init__(self):
         self.name = "RecentChooseDialog"
+        super(Command, self).__init__()
+        Command.__init__(self)
+
+
+class Terminal(Command):
+    def __init__(self):
+        self.name = "Terminal"
         super(Command, self).__init__()
         Command.__init__(self)
 
