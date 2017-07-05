@@ -20,11 +20,13 @@ class Terminal(Gtk.Window):
 
         try:
             # Main Box
-            self.MainBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+            self.MainBox = Gtk.Box(
+                orientation=Gtk.Orientation.VERTICAL, spacing=0)
             self.add(self.MainBox)
 
             # Box for Interaction User
-            self.BoxHor = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
+            self.BoxHor = Gtk.Box(
+                orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
             self.MainBox.pack_end(self.BoxHor, False, False, 0)
             # self.Box_Resp_Term = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
             # self.MainBox.pack_start(self.Box_Resp_Term, True, True, 0)
@@ -46,7 +48,8 @@ class Terminal(Gtk.Window):
             self.Revealer.add(self.TerminalScroll)
             Gtk.Widget.show(self.TerminalScroll)
             self.MainBox.pack_start(self.Revealer, True, True, 0)
-            self.Box_Resp_Term = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+            self.Box_Resp_Term = Gtk.Box(
+                orientation=Gtk.Orientation.VERTICAL, spacing=0)
             self.TerminalScroll.add_with_viewport(self.Box_Resp_Term)
 
         except Exception as err:
@@ -86,6 +89,9 @@ class Terminal(Gtk.Window):
         except Exception as err:
             print("Error in on_activate_pressed in Terminal Class")
             print(err)
+
+        # Clean Entry
+        self.entry.set_text("")
         #######################################################################
         # Reférence :
         # http://www.pygtk.org/pygtk2reference/class-gtkbox.html#method-gtkbox--set-child-packing

@@ -30,18 +30,29 @@ class Execute_Commande(object):
             return err
 
         self.commands = {"create": Create,
+                         "new": New,
                          "help": "help",
+                         "ls": "ls",
+                         "cd": "cd"
                          }
         self.argv = 0
 
     def Exe_cmd(self):
 
         try:
-            if len(user_cmd) == 1:
+            if len(user_cmd) < 1 or user_cmd[0] == "help":
                 return "command is not exist \"help\""
-            elif len(user_cmd) >= 1 + self.argv:
+
+            elif len(user_cmd) > 1 + self.argv:
                 self.x = self.commands[user_cmd[0 + self.argv]]()
                 return self.x.Response()
+
+            elif len(user_cmd) == 1 + self.argv:
+                try:
+                    self.x = self.commands[user_cmd[0 + self.argv]]()
+                    return self.x.Response()
+                except:
+                    return "command not exist"
         except Exception as err:
             return err
 
@@ -65,6 +76,29 @@ class Create(Execute_Commande):
             return self.Exe_cmd()
         except Exception as err:
             return err
+
+
+class New(Execute_Commande):
+    def __init__(self):
+        super(Execute_Commande, self).__init__()
+        Execute_Commande.__init__(self, user_cmd)
+        self.argv = 1
+        self.commands = {"app": App
+                         }
+
+    def Response(self):
+        try:
+            return self.Exe_cmd()
+        except Exception as err:
+            return err
+
+
+class App():
+    def __init__(self):
+        pass
+
+    def response(self):
+        return None
 
 
 class Command(object):
